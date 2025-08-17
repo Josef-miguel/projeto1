@@ -1,0 +1,22 @@
+
+{% block content %}
+
+<div class="container" style="background-color: #f0f0f0; border-radius: 8px; padding: 20px;">
+    <div class="row">
+        {% for filme in listaFilmes %}
+        <div class="col-md-3 mb-4">
+            <div class="card" style="width: 16rem; border-radius: 12px; overflow: hidden;">
+                <img src="https://image.tmdb.org/t/p/w500{{ filme.poster_path }}" class="card-img-top" alt="{{ filme.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ filme.title }}</h5>
+                    <p class="card-text">Lançamento: {{ filme.release_date }}</p>
+                    <p class="card-text">Nota: ⭐ {{ filme.vote_average }}</p>
+                    <a href="{{ url_for('apifilmes', id=filme.id) }}" class="btn btn-dark">+ Info</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
