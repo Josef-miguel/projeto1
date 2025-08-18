@@ -1,9 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template
+from Controllers import routes  
 
-app = Flask(__name__)
 
-# importa as rotas do módulo controllers
-from Controllers import routes
+app = Flask(__name__, template_folder='views')
+
+# Chamando as rotas
+routes.init_app(app)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
