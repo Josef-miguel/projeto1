@@ -1,17 +1,21 @@
-
+{% extends 'home.html' %}
 {% block content %}
 
-<div class="container" style="background-color: #f0f0f0; border-radius: 8px; padding: 20px;">
+<div class="container my-4" style="background-color: #f0f0f0; border-radius: 8px; padding: 20px;">
     <div class="row">
         {% for filme in listaFilmes %}
         <div class="col-md-3 mb-4">
-            <div class="card" style="width: 16rem; border-radius: 12px; overflow: hidden;">
-                <img src="https://image.tmdb.org/t/p/w500{{ filme.poster_path }}" class="card-img-top" alt="{{ filme.title }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ filme.title }}</h5>
-                    <p class="card-text">Lançamento: {{ filme.release_date }}</p>
-                    <p class="card-text">Nota: ⭐ {{ filme.vote_average }}</p>
-                    <a href="{{ url_for('apifilmes', id=filme.id) }}" class="btn btn-dark">+ Info</a>
+            <div class="card h-100 shadow-sm" style="width: 16rem; border-radius: 10px;">
+                <img src="https://image.tmdb.org/t/p/w500{{ filme.poster_path }}"
+                     class="card-img-top"
+                     alt="{{ filme.title }}"
+                     style="width: 100%; height: auto; max-height: 240px; object-fit: contain; border-top-left-radius: 10px; border-top-right-radius: 10px; display: block; margin: auto;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-truncate" title="{{ filme.title }}">{{ filme.title }}</h5>
+                    <p class="card-text mb-1"><strong>Lançamento:</strong> {{ filme.release_date }}</p>
+                    <p class="card-text mb-2"><strong>Nota:</strong> ⭐ {{ filme.vote_average | round(1) }}</p>
+                    <p class="card-text mb-1"><strong>Gênero:</strong> {{ filme.genres | join(', ') }}</p>
+                    <a href="{{ url_for('apifilmes', id=filme.id) }}" class="btn btn-dark mt-auto">+ Detalhes</a>
                 </div>
             </div>
         </div>

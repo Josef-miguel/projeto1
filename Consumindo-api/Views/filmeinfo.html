@@ -1,19 +1,49 @@
+{% extends 'home.html' %}
 
 {% block content %}
+<div class="container my-4" style="background-color: #f0f0f0; border-radius: 8px; padding: 20px;">
+    <div class="row justify-content-center">
+        <div class="col-12">
 
-<div class="container" style="background-color: #f0f0f0; border-radius: 8px; padding: 20px;">
-    <div class="row">
-        <div class="col-md-4">
-            <img src="https://image.tmdb.org/t/p/w500{{ filmeInfo.poster_path }}" class="img-fluid rounded">
-        </div>
-        <div class="col-md-8">
-            <h2>{{ filmeInfo.title }}</h2>
-            <p><strong>Lançamento:</strong> {{ filmeInfo.release_date }}</p>
-            <p><strong>Nota:</strong> ⭐ {{ filmeInfo.vote_average }}</p>
-            <p><strong>Sinopse:</strong> {{ filmeInfo.overview }}</p>
-            <a href="{{ url_for('apifilmes') }}" class="btn btn-secondary">Voltar</a>
+            <a href="{{ url_for('apifilmes') }}" class="btn btn-danger mb-3">Voltar para todos os filmes</a>
+
+            <div class="card w-100">
+                <img src="https://image.tmdb.org/t/p/w500{{ filmeInfo.poster_path }}"
+                     class="card-img-top"
+                     alt="{{ filmeInfo.title | default('Poster do filme') }}"
+                     style="border-top-left-radius: 8px; border-top-right-radius: 8px; width: 300px; height: auto; object-fit: contain; margin: auto; display: block;">
+
+                <div class="card-body">
+                    <h4 class="card-title">{{ filmeInfo.title | default('Título indisponível') }}</h4>
+
+                    <p class="card-text"><strong>Lançamento:</strong> {{ filmeInfo.release_date | default('N/A') }}</p>
+
+                    <p class="card-text"><strong>Nota:</strong> ⭐ {{ filmeInfo.vote_average | default(0) | round(1) }}</p>
+
+                    <p class="card-text"><strong>Gêneros:</strong>
+                        {{ filmeInfo.genres | map(attribute='name') | join(', ') | default('Não informado') }}
+                    </p>
+
+                    <p class="card-text"><strong>Diretor:</strong> {{ diretor.name | default('Não informado') }}</p>
+
+                    <p class="card-text"><strong>Sinopse:</strong><br>{{ filmeInfo.overview | default('Sem sinopse disponível.') }}</p>
+
+                    <div class="mt-4">
+                        <h5>Trailer</h5>
+                        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000;">
+                            <iframe
+                                src="https://www.youtube.com/embed/{{ trailer.key | default('') }}"
+                                allowfullscreen
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                                {% if not trailer.key %}hidden{% endif %}>
+                            </iframe>
+                        </div>
+                        <p {% if trailer.key %}hidden{% endif %}>Trailer indisponível.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
-
 {% endblock content %}
